@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+<title>计算电费</title>
+<script src="./js/encode&timeFunc.js"></script>
+<style type="text/css">
+.head {
+	box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .2);
+	border-radius: 5px;
+}
+
+[name=daichulixingchengTR] {
+	height: 70px;
+	vertical-align: middle;
+	border-bottom: 1px solid #eeeeee;
+}
+
+[name=loudouImg] {
+	height: 50px;
+	width: 50px;
+	vertical-align: middle;
+}
+
+[name=loudouTD] {
+	width: 70px;
+	vertical-align: middle;
+}
+
+[name=neirongTD] {
+	width: 60%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+[name=xiangqingTD] {
+	width: 20%;
+	text-align: right;
+	vertical-align: middle;
+}
+</style>
+
+<script type="text/javascript">
+
+	function jisuan() {
+		var A2 = document.getElementById("monthNum").value;
+		var B2 = document.getElementById("spendNum").value;
+		var result;
+		var beSub;
+		var toSub;
+		if(B2 <= 180 * A2){
+			result = 0;
+		}else if(B2 > 180 * A2 && B2 <= 280 * A2){
+			if(B2 < 2160){
+				toSub = 0.52 * B2;
+			}else if(B2 > 2160 && B2 < 280 * A2){
+				toSub = 0.52 * 2160 + (B2 - 2160) * 0.57;
+			}
+			beSub = 0.52 * 180 * A2 + 0.57 * (B2 - 180 * A2);
+			result = beSub - toSub;
+		}else if(B2 > 280 * A2){
+		
+			if(B2 < 2160){
+				toSub = 0.52 * B2;
+			}else if(B2 > 2160 && B2 < 3360){
+				toSub = 0.57 *(B2 - 2160) + 2160 * 0.52;
+			}else if(B2 > 3360){
+				toSub = 2160 * 0.52 + 1200 * 0.57 + 0.82 * (B2 - 3360);
+			}
+			
+			beSub = 0.52 * A2 * 180 + 0.57 * 100 * A2 + 0.82 * (B2 - 280 * A2);
+			result = beSub - toSub;
+		}
+		//alert(A2);
+		//alert(B2);
+		//alert(beSub);
+		//alert(toSub);
+		
+		document.getElementById("jiaofei").innerText = result;
+	}
+
+</script>
+</head>
+<body style=" background: url(background_alpha.png);">
+	<div style="width: 100%;" class="head">
+		<table style="width: 100%;">
+			<tr style="height: 40px;">
+				<td  style="vertical-align: middle; text-align: center; width:100%">
+					<span style="font-size: 36px; font-family: 楷体; margin-top: 5px;"><font color="#006E6B">国网定州市供电公司</font></span>
+				</td>
+			</tr>
+			<tr style="height: 40px;">
+				<td  style="vertical-align: middle; text-align: center; width:100%">
+					<span style="font-size: 36px; font-family: 楷体; margin-top: 5px;"><font color="#006E6B">阶梯差价补缴金额计算</font></span>
+				</td>
+			</tr>
+		</table>
+		<table style="width: 100%;">
+			<tr style="height: 40px;">
+			</tr>
+			<tr style="height: 40px;">
+				<td style="vertical-align: right; text-align: right; width:35%">
+					<span style="font-size: 24px; font-family: 楷体; margin-top: 5px;">阶梯月数:</span>
+				</td>
+				<td style="vertical-align: left; text-align: left;">
+					<input align="middle" type="text" id="monthNum" 
+							name="monthNum" style="margin-left:10px; width: 65%; height: 25px; border-radius: 0.5rem; height: 38px; width: 60%;"
+							onkeyup="jisuan()" onBlur="jisuan()" onFocus="jisuan()" placeholder="请输入阶梯月数" maxlength="11" />
+				</td>
+			</tr>
+			<tr>
+				<td style="vertical-align: right; text-align: right; width:35%">
+					<span style="font-size: 24px; font-family: 楷体; margin-top: 5px;">使用电度:</span>
+				</td>
+				<td style="vertical-align: left; text-align: left;">
+					<input align="middle" type="text" id="spendNum" 
+							name="spendNum" style="margin-left:10px; width: 65%; height: 25px; border-radius: 0.5rem; height: 38px; width: 60%;"
+							onkeyup="jisuan()" onBlur="jisuan()" onFocus="jisuan()" placeholder="请输入使用电度" maxlength="11" />
+				</td>
+			</tr>
+			<tr style="height: 60px;">
+				<td  style="text-align: right;">
+					<span style="font-size: 24px; font-family: 楷体; margin-top: 5px;">补缴电费:</span>
+				</td>
+				<td  style="text-align: left;">
+					<span style="font-size: 24px; font-family: 楷体; margin-top: 5px; margin-left:10px;" id="jiaofei" ></span>
+				</td>
+			</tr>
+			<tr style="height: 60px;">
+				<td  style="text-align: right;" colspan="2">
+					<span style="margin-bottom: 10px; height: 40px; width: 25%; border-radius: 0.5rem;"	onclick="jisuan()" >如果无变化请</span>
+					<span style="margin-bottom: 10px; margin-right: 20%;height: 40px; width: 25%; border-radius: 0.5rem;" onclick="jisuan()" ><font color="#0000FF" href=""><a href="#" style="text-decoration:none;">手动计算</a></font>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
